@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll, beforeEach, afterAll } from 'vitest';
-import { setupTestDb, cleanTestDb, teardownTestDb, seedTeam, seedOpenIntent } from './setup.js';
+import { setupTestDb, cleanTestDb, teardownTestDb, seedTeam, seedOpenIntent, testQuery } from './setup.js';
 import * as db from '../src/db/queries.js';
 
 describe('Signals', () => {
@@ -59,6 +59,28 @@ describe('Signals', () => {
     const backendSignals = await db.getSignals({ team_id: 'backend' });
     expect(backendSignals).toHaveLength(1);
     expect(backendSignals[0].message).toBe('Backend signal');
+  });
+
+  it('filters signals by since timestamp', async () => {
+    const intent = await seedOpenIntent();
+
+    // Insert a signal timestamped 1 hour ago
+    await testQuery(
+      `INSERT INTO signals (type, from_user, intent_id, message, created_at)
+       VALUES ('info', 'pawel', $1, 'Old signal', now() - interval '1 hour')`,
+      [intent.id]
+    );
+
+    // Capture "since" from the DB clock so it falls between old and new signals
+    const sinceRes = await testQuery('SELECT now()::text AS now');
+    const since = sinceRes.rows[0].now;
+
+    await db.sendSignal({ type: 'info', from_user: 'alice', intent_id: intent.id as string, message: 'New signal' });
+
+    const recent = await db.getSignals({ since });
+    expect(recent).toHaveLength(1);
+    expect(recent[0].message).toBe('New signal');
+    expect(recent[0].from_user).toBe('alice');
   });
 
   it('respects limit parameter', async () => {
