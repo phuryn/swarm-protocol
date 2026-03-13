@@ -1,11 +1,11 @@
 {
-  "name": "agentsync",
+  "name": "swarm-protocol",
   "version": "0.1.0",
   "description": "MCP server for AI agent team coordination. No UI. No sprints. Just state sync.",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "agentsync": "dist/index.js"
+    "swarm-protocol": "dist/index.js"
   },
   "scripts": {
     "build": "tsc && cp src/db/schema.sql dist/db/schema.sql",

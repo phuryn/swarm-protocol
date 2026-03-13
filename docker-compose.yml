@@ -4,7 +4,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: agentsync
+      POSTGRES_DB: swarm_protocol
     ports:
       - "5432:5432"
     volumes:

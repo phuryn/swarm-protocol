@@ -11,7 +11,7 @@ import { registerContextTools } from './tools/context.js';
 import { registerOverviewTools } from './tools/overview.js';
 
 const server = new McpServer({
-  name: 'agentsync',
+  name: 'swarm-protocol',
   version: '0.1.0',
 });
 
@@ -30,6 +30,6 @@ async function main(): Promise<void> {
 }
 
 main().catch((err) => {
-  console.error('Failed to start AgentSync:', err);
+  console.error('Failed to start Swarm Protocol:', err);
   process.exit(1);
 });

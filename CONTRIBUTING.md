@@ -1,6 +1,6 @@
-# Contributing to AgentSync
+# Contributing to Swarm Protocol
 
-AgentSync is early-stage and building in public. We're looking for contributors at every level — from bug fixes to leading entire feature areas.
+Swarm Protocol is early-stage and building in public. We're looking for contributors at every level — from bug fixes to leading entire feature areas.
 
 ## We're Looking for Co-Maintainers
 
@@ -13,8 +13,8 @@ If you're interested, open an issue titled "Maintainer interest" and tell us wha
 ### Setup
 
 ```bash
-git clone https://github.com/phuryn/SwarmProtocol.git
-cd agentsync
+git clone https://github.com/phuryn/swarm-protocol.git
+cd swarm-protocol
 docker compose up -d
 npm install
 npm run build

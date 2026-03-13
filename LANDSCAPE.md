@@ -1,4 +1,4 @@
-# AgentSync — Competitive Landscape & Market Signals
+# Swarm Protocol — Competitive Landscape & Market Signals
 
 ## The Gap
 
@@ -117,9 +117,9 @@ This is single-player multiplayer vs. true multiplayer. Different product catego
 
 ---
 
-## AgentSync Differentiation
+## Swarm Protocol Differentiation
 
-| Dimension | Existing Tools | AgentSync |
+| Dimension | Existing Tools | Swarm Protocol |
 |-----------|---------------|-----------|
 | Scope | One dev, multiple agents | Multiple humans + agents across teams |
 | Primitive | Tasks / Tickets | Intents (outcome-oriented) |

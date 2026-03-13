@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "🔧 AgentSync Setup"
+echo "🔧 Swarm Protocol Setup"
 echo "==================="
 
 # Check for Docker
@@ -23,21 +23,21 @@ done
 echo "✅ PostgreSQL is ready"
 
 # Build the project
-echo "🔨 Building AgentSync..."
+echo "🔨 Building Swarm Protocol..."
 npm install
 npm run build
 
 echo ""
-echo "✅ AgentSync is ready!"
+echo "✅ Swarm Protocol is ready!"
 echo ""
 echo "Add this to your Claude Code MCP config (~/.claude/config.json):"
 echo ""
 echo '  "mcpServers": {'
-echo '    "agentsync": {'
+echo '    "swarm-protocol": {'
 echo '      "command": "node",'
 echo "      \"args\": [\"$(pwd)/dist/index.js\"],"
 echo '      "env": {'
-echo '        "DATABASE_URL": "postgresql://postgres:postgres@localhost:5432/agentsync"'
+echo '        "DATABASE_URL": "postgresql://postgres:postgres@localhost:5432/swarm_protocol"'
 echo '      }'
 echo '    }'
 echo '  }'

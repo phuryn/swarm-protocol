@@ -1,6 +1,6 @@
 # Testing
 
-AgentSync uses integration tests against a real PostgreSQL database. No mocks. Tests are written with [Vitest](https://vitest.dev/).
+Swarm Protocol uses integration tests against a real PostgreSQL database. No mocks. Tests are written with [Vitest](https://vitest.dev/).
 
 ## Running Tests
 
@@ -10,7 +10,7 @@ npm test                      # run all tests
 npm run test:watch            # watch mode
 ```
 
-Requires `DATABASE_URL` (default: `postgresql://postgres:postgres@localhost:5432/agentsync`).
+Requires `DATABASE_URL` (default: `postgresql://postgres:postgres@localhost:5432/swarm_protocol`).
 
 ## Test Architecture
 

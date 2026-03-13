@@ -1,7 +1,7 @@
-## Team Coordination (AgentSync)
+## Team Coordination (Swarm Protocol)
 
-This project uses AgentSync for team coordination.
-MCP server: mcp://localhost:3333/agentsync
+This project uses Swarm Protocol for team coordination.
+MCP server: mcp://localhost:3333/swarm-protocol
 
 ### Before starting any work:
 1. Call `get_team_status` for your team to see what's in flight

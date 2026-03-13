@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-AgentSync is a headless MCP server for AI agent team coordination. It solves state synchronization when multiple people work through AI agents (Claude Code, etc.) on the same codebase simultaneously — preventing file conflicts, tracking work in flight, and managing task dependencies.
+Swarm Protocol is a headless MCP server for AI agent team coordination. It solves state synchronization when multiple people work through AI agents (Claude Code, etc.) on the same codebase simultaneously — preventing file conflicts, tracking work in flight, and managing task dependencies.
 
 **Status:** Alpha — all 19 MCP tools implemented, integration tests written. See SPEC.md for the full design.
 
@@ -12,7 +12,7 @@ AgentSync is a headless MCP server for AI agent team coordination. It solves sta
 
 This is a **coordination protocol, not a project management tool**. The origin insight: "Jira was built for humans clicking buttons. This is coordination infrastructure for agent-first teams." The problem isn't Kanban or sprints — it's state synchronization when agents are the primary interface.
 
-**Key differentiator:** Every existing tool (Claude Code Agent Teams, CCPM, tick-md, Agent-MCP, 1Code, etc.) solves single-developer multi-agent coordination. AgentSync solves multi-human multi-agent coordination across teams. See LANDSCAPE.md for the full competitive analysis.
+**Key differentiator:** Every existing tool (Claude Code Agent Teams, CCPM, tick-md, Agent-MCP, 1Code, etc.) solves single-developer multi-agent coordination. Swarm Protocol solves multi-human multi-agent coordination across teams. See LANDSCAPE.md for the full competitive analysis.
 
 When making implementation decisions:
 - **Protocol over product.** Keep it minimal and composable. Resist feature creep toward traditional PM concepts (sprints, boards, velocity, story points).
@@ -38,7 +38,7 @@ npm test               # run integration tests (needs PostgreSQL)
 npm run dev            # watch mode for TypeScript compilation
 ```
 
-Database: PostgreSQL on `localhost:5432`, database `agentsync`. Schema auto-applies on startup via `initDb()`. Connection string via `DATABASE_URL` env var (default: `postgresql://postgres:postgres@localhost:5432/agentsync`).
+Database: PostgreSQL on `localhost:5432`, database `swarm_protocol`. Schema auto-applies on startup via `initDb()`. Connection string via `DATABASE_URL` env var (default: `postgresql://postgres:postgres@localhost:5432/swarm_protocol`).
 
 Tests: Vitest, integration tests against real PostgreSQL. No mocks. Run `npm test` — requires a running PostgreSQL instance.
 

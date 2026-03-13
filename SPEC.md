@@ -1,4 +1,4 @@
-# AgentSync — Agent-Native Team Coordination Protocol
+# Swarm Protocol — Agent-Native Team Coordination Protocol
 
 ## What This Is
 
@@ -277,10 +277,10 @@ This is how it gets embedded into every Claude Code session without human overhe
 ### Repo-Level CLAUDE.md Addition
 
 ```markdown
-## Team Coordination (AgentSync)
+## Team Coordination (Swarm Protocol)
 
-This project uses AgentSync for team coordination.
-MCP server: mcp://localhost:3333/agentsync
+This project uses Swarm Protocol for team coordination.
+MCP server: mcp://localhost:3333/swarm-protocol
 
 ### Before starting any work:
 1. Call `get_team_status` for team "{team_id}" to see what's in flight
@@ -328,7 +328,7 @@ Two people on the same team, both working through Claude Code, both starting ses
 ## Repo Structure
 
 ```
-agentsync/
+swarm-protocol/
 ├── README.md
 ├── LICENSE                    # MIT
 ├── package.json

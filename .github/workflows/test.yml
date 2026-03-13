@@ -16,7 +16,7 @@ jobs:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: agentsync
+          POSTGRES_DB: swarm_protocol
         ports:
           - 5432:5432
         options: >-
@@ -37,4 +37,4 @@ jobs:
       - run: npm run build
       - run: npm test
         env:
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/agentsync
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/swarm_protocol

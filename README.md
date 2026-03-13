@@ -1,4 +1,4 @@
-# AgentSync
+# Swarm Protocol
 
 > MCP server for AI agent team coordination. No UI. No sprints. Just state sync.
 
@@ -29,8 +29,8 @@ The "UI" is Claude Code itself. Drop a snippet in your repo's CLAUDE.md and agen
 
 ```bash
 # 1. Clone and set up
-git clone https://github.com/phuryn/SwarmProtocol.git
-cd agentsync
+git clone https://github.com/phuryn/swarm-protocol.git
+cd swarm-protocol
 
 # 2. Start PostgreSQL
 docker compose up -d
@@ -48,11 +48,11 @@ npm test
 ```json
 {
   "mcpServers": {
-    "agentsync": {
+    "swarm-protocol": {
       "command": "node",
-      "args": ["/path/to/agentsync/dist/index.js"],
+      "args": ["/path/to/swarm-protocol/dist/index.js"],
       "env": {
-        "DATABASE_URL": "postgresql://postgres:postgres@localhost:5432/agentsync"
+        "DATABASE_URL": "postgresql://postgres:postgres@localhost:5432/swarm_protocol"
       }
     }
   }
@@ -107,7 +107,7 @@ See [SPEC.md](SPEC.md) for the full design. See [LANDSCAPE.md](LANDSCAPE.md) for
 
 Every tool in this space — Claude Code Agent Teams, CCPM, tick-md, Agent-MCP, 1Code — solves the **single-player** version: one dev running multiple agents in parallel. That's useful but insufficient.
 
-AgentSync solves the **multiplayer** version: multiple humans, each working through agents, across teams. Cross-human conflict detection, dependency chains that auto-unblock, context packages that onboard agents instantly.
+Swarm Protocol solves the **multiplayer** version: multiple humans, each working through agents, across teams. Cross-human conflict detection, dependency chains that auto-unblock, context packages that onboard agents instantly.
 
 See [LANDSCAPE.md](LANDSCAPE.md) for the full competitive breakdown.
 
