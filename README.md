@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-0d9488?style=flat-square)](https://github.com/phuryn/swarm-protocol/blob/main/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-0d9488?style=flat-square)](https://github.com/phuryn/swarm-protocol/blob/main/CONTRIBUTING.md)
 
-**Coordination protocol for agent-first teams. No UI. No sprints. Just state sync.**
+**Coordination protocol for agent-first teams. No UI. No sprints. No Jira. Just state sync.**
 
 ![Swarm Protocol](docs/welcome.png)
 
