@@ -62,13 +62,13 @@ describe('Edge Cases & Error Paths', () => {
     ).rejects.toThrow('not found');
   });
 
-  it('claim rejects already-claimed intent', async () => {
+  it('claim rejects already-claimed intent with claimer info', async () => {
     const intent = await seedOpenIntent();
     await db.claimWork({ intent_id: intent.id as string, claimed_by: 'pawel' });
 
     await expect(
       db.claimWork({ intent_id: intent.id as string, claimed_by: 'alice' })
-    ).rejects.toThrow('not open');
+    ).rejects.toThrow('claimed by pawel');
   });
 
   it('claim rejects done intent', async () => {
@@ -90,7 +90,7 @@ describe('Edge Cases & Error Paths', () => {
     const { claim } = await db.claimWork({ intent_id: intent.id as string, claimed_by: 'pawel' });
     await db.completeClaim(claim.id);
 
-    await expect(db.completeClaim(claim.id)).rejects.toThrow('not active');
+    await expect(db.completeClaim(claim.id)).rejects.toThrow('completed');
   });
 
   it('complete rejects abandoned claim', async () => {
@@ -98,7 +98,7 @@ describe('Edge Cases & Error Paths', () => {
     const { claim } = await db.claimWork({ intent_id: intent.id as string, claimed_by: 'pawel' });
     await db.releaseClaim(claim.id);
 
-    await expect(db.completeClaim(claim.id)).rejects.toThrow('not active');
+    await expect(db.completeClaim(claim.id)).rejects.toThrow('abandoned');
   });
 
   it('release rejects non-existent claim', async () => {
@@ -109,12 +109,12 @@ describe('Edge Cases & Error Paths', () => {
     await expect(db.heartbeat('claim_nonexistent')).rejects.toThrow('not found');
   });
 
-  it('heartbeat rejects completed claim', async () => {
+  it('heartbeat rejects completed claim with status', async () => {
     const intent = await seedOpenIntent();
     const { claim } = await db.claimWork({ intent_id: intent.id as string, claimed_by: 'pawel' });
     await db.completeClaim(claim.id);
 
-    await expect(db.heartbeat(claim.id)).rejects.toThrow('not found');
+    await expect(db.heartbeat(claim.id)).rejects.toThrow('completed');
   });
 
   // ─── Conflict Edge Cases ────────────────────────
