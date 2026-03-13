@@ -76,6 +76,14 @@ This is single-player multiplayer vs. true multiplayer. Different product catego
 - Proves the pain is real but solution is manual protocols
 - https://github.com/timothyjrainwater-lab/multi-agent-coordination-framework
 
+### 10. Beads Village (MCP-based)
+- MCP server with task queues, file locking, and built-in messaging between agents
+- Standard workflow: initialize → claim tasks → lock files → work → complete
+- Runs entirely locally, data stored in Git repo
+- Cross-platform: supports Claude Desktop, Cursor, VS Code
+- Still single-developer scope — no cross-human coordination
+- https://mcp.aibase.com/server/1586804682578469105
+
 ---
 
 ## What Jira Is Doing
