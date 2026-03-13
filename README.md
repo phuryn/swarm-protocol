@@ -1,4 +1,4 @@
-# Swarm Protocol
+# 🐝 Swarm Protocol
 
 [![Tests](https://github.com/phuryn/swarm-protocol/actions/workflows/test.yml/badge.svg)](https://github.com/phuryn/swarm-protocol/actions/workflows/test.yml)
 ![GitHub stars](https://img.shields.io/github/stars/phuryn/swarm-protocol?style=flat-square&color=0d9488)
