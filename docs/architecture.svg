@@ -1,0 +1,248 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" font-family="'Segoe UI', system-ui, -apple-system, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#eef2f0"/>
+      <stop offset="100%" stop-color="#e4ebe8"/>
+    </linearGradient>
+    <!-- Slate-blue for primary headers (matches the cool tones in left panel) -->
+    <linearGradient id="slateGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4a6274"/>
+      <stop offset="100%" stop-color="#3a5060"/>
+    </linearGradient>
+    <!-- Darker slate for MCP server header -->
+    <linearGradient id="darkSlateGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2e4050"/>
+      <stop offset="100%" stop-color="#1e3040"/>
+    </linearGradient>
+    <!-- PostgreSQL dark -->
+    <linearGradient id="dbGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2e3d46"/>
+      <stop offset="100%" stop-color="#1e2d36"/>
+    </linearGradient>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="112%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.08"/>
+    </filter>
+    <filter id="shadowSm" x="-2%" y="-2%" width="104%" height="108%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-opacity="0.06"/>
+    </filter>
+    <marker id="arrowSlate" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#4a6274"/>
+    </marker>
+    <marker id="arrowMuted" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#7a8e98"/>
+    </marker>
+    <marker id="arrowFlow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#5a8a6a"/>
+    </marker>
+
+    <!-- Person icon -->
+    <symbol id="personIcon" viewBox="0 0 16 16">
+      <circle cx="8" cy="4.5" r="3" fill="currentColor"/>
+      <path d="M2.5,15 C2.5,10.5 5,8.5 8,8.5 C11,8.5 13.5,10.5 13.5,15" fill="currentColor"/>
+    </symbol>
+    <!-- Agent/robot icon -->
+    <symbol id="agentIcon" viewBox="0 0 16 16">
+      <rect x="3" y="4" width="10" height="9" rx="2" fill="currentColor"/>
+      <circle cx="6.5" cy="7.8" r="1.3" fill="#eef2f0"/>
+      <circle cx="9.5" cy="7.8" r="1.3" fill="#eef2f0"/>
+      <line x1="8" y1="1.2" x2="8" y2="4" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="8" cy="1.2" r="1" fill="currentColor"/>
+      <rect x="5.5" y="10.2" width="5" height="1" rx="0.5" fill="#eef2f0"/>
+    </symbol>
+    <!-- File/doc icon -->
+    <symbol id="fileIcon" viewBox="0 0 14 16">
+      <path d="M1,1 L9,1 L13,5 L13,15 L1,15 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M9,1 L9,5 L13,5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+
+  <!-- Background -->
+  <rect width="960" height="620" rx="8" fill="url(#bgGrad)"/>
+
+  <!-- Title bar -->
+  <text x="480" y="36" text-anchor="middle" font-size="17" font-weight="700" fill="#1e2d36" letter-spacing="0.3">Swarm Protocol — Coordination Architecture</text>
+  <text x="480" y="54" text-anchor="middle" font-size="11" fill="#6a7e88">MCP server for agent-native team coordination</text>
+
+  <!-- ═══════════ LEFT COLUMN: Human + Agent Sessions ═══════════ -->
+
+  <!-- Agent Session A -->
+  <rect x="30" y="78" width="200" height="115" rx="8" fill="white" stroke="#c4d0d6" stroke-width="1" filter="url(#shadow)"/>
+  <rect x="30" y="78" width="200" height="28" rx="8" fill="url(#slateGrad)"/>
+  <rect x="30" y="98" width="200" height="8" fill="url(#slateGrad)"/>
+  <use href="#personIcon" x="42" y="82" width="13" height="13" color="#c4d8e0"/>
+  <use href="#agentIcon" x="57" y="82" width="13" height="13" color="#c4d8e0"/>
+  <text x="78" y="97" font-size="11" font-weight="600" fill="white">Human A + Agent</text>
+  <text x="44" y="126" font-size="9.5" fill="#4a5e68">1. get_team_status</text>
+  <text x="44" y="141" font-size="9.5" fill="#4a5e68">2. claim_work (files: src/api/*)</text>
+  <text x="44" y="156" font-size="9.5" fill="#4a5e68">3. check_conflicts</text>
+  <text x="44" y="171" font-size="9.5" fill="#4a5e68">4. heartbeat (every 10-15 min)</text>
+  <text x="44" y="186" font-size="9.5" fill="#4a5e68">5. complete_claim → unblocks B</text>
+
+  <!-- Agent Session B -->
+  <rect x="30" y="213" width="200" height="115" rx="8" fill="white" stroke="#c4d0d6" stroke-width="1" filter="url(#shadow)"/>
+  <rect x="30" y="213" width="200" height="28" rx="8" fill="url(#slateGrad)"/>
+  <rect x="30" y="233" width="200" height="8" fill="url(#slateGrad)"/>
+  <use href="#personIcon" x="42" y="217" width="13" height="13" color="#c4d8e0"/>
+  <use href="#agentIcon" x="57" y="217" width="13" height="13" color="#c4d8e0"/>
+  <text x="78" y="232" font-size="11" font-weight="600" fill="white">Human B + Agent</text>
+  <text x="44" y="261" font-size="9.5" fill="#4a5e68">1. get_team_status</text>
+  <text x="44" y="276" font-size="9.5" fill="#4a5e68">2. claim_work (files: src/db/*)</text>
+  <text x="44" y="291" font-size="9.5" fill="#4a5e68">3. check_conflicts → no overlap</text>
+  <text x="44" y="306" font-size="9.5" fill="#4a5e68">4. heartbeat</text>
+  <text x="44" y="321" font-size="9.5" fill="#4a5e68">5. picks up unblocked intent</text>
+
+  <!-- Agent Session C -->
+  <rect x="30" y="348" width="200" height="80" rx="8" fill="white" stroke="#c4d0d6" stroke-width="1" filter="url(#shadow)"/>
+  <rect x="30" y="348" width="200" height="28" rx="8" fill="url(#slateGrad)"/>
+  <rect x="30" y="368" width="200" height="8" fill="url(#slateGrad)"/>
+  <use href="#personIcon" x="42" y="352" width="13" height="13" color="#c4d8e0"/>
+  <use href="#agentIcon" x="57" y="352" width="13" height="13" color="#c4d8e0"/>
+  <text x="78" y="367" font-size="11" font-weight="600" fill="white">Human C + Agent</text>
+  <text x="44" y="396" font-size="9.5" fill="#4a5e68">1. get_team_status</text>
+  <text x="44" y="411" font-size="9.5" fill="#4a5e68">2. create_intent → publish_intent</text>
+
+  <!-- CLAUDE.md callout -->
+  <rect x="30" y="453" width="200" height="52" rx="6" fill="#f0f2f4" stroke="#4a6274" stroke-width="1" stroke-dasharray="4 2" filter="url(#shadowSm)"/>
+  <use href="#fileIcon" x="44" y="462" width="12" height="14" color="#4a6274"/>
+  <text x="62" y="476" font-size="10" font-weight="600" fill="#2e4050">CLAUDE.md</text>
+  <text x="130" y="494" text-anchor="middle" font-size="9" fill="#5a6e78">Agents auto-coordinate via</text>
+  <text x="130" y="504" text-anchor="middle" font-size="9" fill="#5a6e78">embedded instructions</text>
+
+  <!-- ═══════════ CENTER: MCP Server ═══════════ -->
+
+  <rect x="300" y="78" width="340" height="430" rx="10" fill="white" stroke="#3a5060" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="300" y="78" width="340" height="36" rx="10" fill="url(#darkSlateGrad)"/>
+  <rect x="300" y="104" width="340" height="10" fill="url(#darkSlateGrad)"/>
+  <text x="470" y="102" text-anchor="middle" font-size="13" font-weight="700" fill="white">MCP Server — 19 Tools</text>
+
+  <!-- ── Intents (warm amber) ── -->
+  <rect x="318" y="128" width="148" height="100" rx="6" fill="#fef8ee" stroke="#c9a04a" stroke-width="1" filter="url(#shadowSm)"/>
+  <text x="392" y="146" text-anchor="middle" font-size="10" font-weight="700" fill="#7a5c1a">INTENTS</text>
+  <text x="328" y="162" font-size="8.5" fill="#6a4e14">create_intent</text>
+  <text x="328" y="175" font-size="8.5" fill="#6a4e14">publish_intent</text>
+  <text x="328" y="188" font-size="8.5" fill="#6a4e14">list_intents / get_intent</text>
+  <text x="328" y="201" font-size="8.5" fill="#6a4e14">update_intent</text>
+  <text x="328" y="214" font-size="8.5" fill="#6a4e14">decompose_intent</text>
+
+  <!-- ── Claims (soft green — the "active / success" color from right panel) ── -->
+  <rect x="474" y="128" width="148" height="100" rx="6" fill="#f0f6f2" stroke="#5a9a72" stroke-width="1" filter="url(#shadowSm)"/>
+  <text x="548" y="146" text-anchor="middle" font-size="10" font-weight="700" fill="#2a5a3a">CLAIMS</text>
+  <text x="484" y="162" font-size="8.5" fill="#2a5038">claim_work</text>
+  <text x="484" y="175" font-size="8.5" fill="#2a5038">heartbeat</text>
+  <text x="484" y="188" font-size="8.5" fill="#2a5038">release_claim</text>
+  <text x="484" y="201" font-size="8.5" fill="#2a5038">complete_claim</text>
+  <text x="484" y="214" font-size="8.5" fill="#8a9e92" font-style="italic">→ auto-unblocks deps</text>
+
+  <!-- ── Signals (lavender / purple from welcome accents) ── -->
+  <rect x="318" y="242" width="148" height="78" rx="6" fill="#f2eef6" stroke="#8a72aa" stroke-width="1" filter="url(#shadowSm)"/>
+  <text x="392" y="260" text-anchor="middle" font-size="10" font-weight="700" fill="#503a6e">SIGNALS</text>
+  <text x="328" y="276" font-size="8.5" fill="#4a3464">send_signal</text>
+  <text x="328" y="289" font-size="8.5" fill="#4a3464">get_signals</text>
+  <text x="328" y="302" font-size="8.5" fill="#9a8eaa" font-style="italic">completion | blocked |</text>
+  <text x="328" y="312" font-size="8.5" fill="#9a8eaa" font-style="italic">conflict | info | request</text>
+
+  <!-- ── Conflicts (warm coral/red from warning elements) ── -->
+  <rect x="474" y="242" width="148" height="78" rx="6" fill="#faf0ee" stroke="#b86a58" stroke-width="1" filter="url(#shadowSm)"/>
+  <text x="548" y="260" text-anchor="middle" font-size="10" font-weight="700" fill="#7a3020">CONFLICTS</text>
+  <text x="484" y="276" font-size="8.5" fill="#6a2818">check_conflicts</text>
+  <text x="484" y="293" font-size="8.5" fill="#9a8e88" font-style="italic">warns: "Agent A is editing</text>
+  <text x="484" y="303" font-size="8.5" fill="#9a8e88" font-style="italic">  src/api/router.ts"</text>
+
+  <!-- ── Context Package (soft blue — matches the cool info tones) ── -->
+  <rect x="318" y="334" width="304" height="68" rx="6" fill="#eef2f8" stroke="#6882a6" stroke-width="1" filter="url(#shadowSm)"/>
+  <text x="470" y="352" text-anchor="middle" font-size="10" font-weight="700" fill="#344a66">CONTEXT PACKAGE</text>
+  <text x="328" y="370" font-size="8.5" fill="#344a66">get_context → assembles on the fly:</text>
+  <text x="328" y="384" font-size="8.5" fill="#5a6a74">intent + dependencies + active claims + signals + team conventions</text>
+  <text x="328" y="396" font-size="8.5" fill="#8a9aa4" font-style="italic">One call = everything an agent needs to start work</text>
+
+  <!-- ── Teams (muted teal — just a touch) ── -->
+  <rect x="318" y="416" width="148" height="78" rx="6" fill="#eef4f2" stroke="#6a9a8e" stroke-width="1" filter="url(#shadowSm)"/>
+  <text x="392" y="434" text-anchor="middle" font-size="10" font-weight="700" fill="#2a4a42">TEAMS</text>
+  <text x="328" y="450" font-size="8.5" fill="#2a4a42">create_team</text>
+  <text x="328" y="463" font-size="8.5" fill="#2a4a42">list_teams</text>
+  <text x="328" y="476" font-size="8.5" fill="#2a4a42">get_team_status</text>
+  <text x="328" y="489" font-size="8.5" fill="#2a4a42">get_overview</text>
+
+  <!-- ── Intent Lifecycle (neutral) ── -->
+  <rect x="474" y="416" width="148" height="78" rx="6" fill="#f4f4f4" stroke="#a0a8ae" stroke-width="1" filter="url(#shadowSm)"/>
+  <text x="548" y="434" text-anchor="middle" font-size="10" font-weight="700" fill="#2e3d46">INTENT LIFECYCLE</text>
+  <text x="548" y="458" text-anchor="middle" font-size="9" fill="#5a6a74">draft → open → claimed → done</text>
+  <text x="548" y="476" text-anchor="middle" font-size="8" fill="#8a9aa4">↘ blocked    ↘ cancelled</text>
+  <text x="548" y="490" text-anchor="middle" font-size="8" fill="#8a9aa4">↗ open (when deps met)</text>
+
+  <!-- ═══════════ RIGHT: PostgreSQL ═══════════ -->
+
+  <rect x="710" y="128" width="210" height="290" rx="10" fill="url(#dbGrad)" filter="url(#shadow)"/>
+  <!-- Database cylinder -->
+  <ellipse cx="815" cy="153" rx="30" ry="10" fill="#3e5560" stroke="#5a7a86" stroke-width="0.5"/>
+  <rect x="785" y="153" width="60" height="20" fill="#3e5560"/>
+  <ellipse cx="815" cy="173" rx="30" ry="10" fill="#2e4550" stroke="#5a7a86" stroke-width="0.5"/>
+  <text x="815" y="198" text-anchor="middle" font-size="12" font-weight="700" fill="#c0d4dc">PostgreSQL</text>
+
+  <text x="730" y="224" font-size="9.5" font-weight="600" fill="#8aa0a8">Tables</text>
+  <rect x="730" y="232" width="170" height="1" fill="#3e5560"/>
+  <text x="738" y="250" font-size="9" fill="#c0d4dc">teams</text>
+  <text x="856" y="250" font-size="8" fill="#6a8a94" text-anchor="end">id, name, conventions</text>
+  <text x="738" y="268" font-size="9" fill="#c0d4dc">intents</text>
+  <text x="856" y="268" font-size="8" fill="#6a8a94" text-anchor="end">status, priority, deps</text>
+  <text x="738" y="286" font-size="9" fill="#c0d4dc">intent_dependencies</text>
+  <text x="856" y="286" font-size="8" fill="#6a8a94" text-anchor="end">DAG edges</text>
+  <text x="738" y="304" font-size="9" fill="#c0d4dc">claims</text>
+  <text x="856" y="304" font-size="8" fill="#6a8a94" text-anchor="end">files, heartbeat, branch</text>
+  <text x="738" y="322" font-size="9" fill="#c0d4dc">signals</text>
+  <text x="856" y="322" font-size="8" fill="#6a8a94" text-anchor="end">type, message, unblocks</text>
+
+  <text x="730" y="348" font-size="9.5" font-weight="600" fill="#8aa0a8">Design</text>
+  <rect x="730" y="356" width="170" height="1" fill="#3e5560"/>
+  <text x="738" y="374" font-size="8.5" fill="#8aa0a8">• Raw SQL, no ORM</text>
+  <text x="738" y="390" font-size="8.5" fill="#8aa0a8">• Single instance (&lt;1000 users)</text>
+  <text x="738" y="406" font-size="8.5" fill="#8aa0a8">• Indexed for common queries</text>
+
+  <!-- ═══════════ ARROWS ═══════════ -->
+
+  <!-- Agent sessions → MCP Server -->
+  <line x1="230" y1="135" x2="296" y2="135" stroke="#4a6274" stroke-width="1.5" marker-end="url(#arrowSlate)" stroke-dasharray="4 2"/>
+  <line x1="230" y1="270" x2="296" y2="270" stroke="#4a6274" stroke-width="1.5" marker-end="url(#arrowSlate)" stroke-dasharray="4 2"/>
+  <line x1="230" y1="388" x2="296" y2="388" stroke="#4a6274" stroke-width="1.5" marker-end="url(#arrowSlate)" stroke-dasharray="4 2"/>
+
+  <text x="263" y="128" text-anchor="middle" font-size="7.5" fill="#4a6274" font-weight="600">MCP</text>
+  <text x="263" y="263" text-anchor="middle" font-size="7.5" fill="#4a6274" font-weight="600">MCP</text>
+  <text x="263" y="381" text-anchor="middle" font-size="7.5" fill="#4a6274" font-weight="600">MCP</text>
+
+  <!-- CLAUDE.md → Agents -->
+  <line x1="130" y1="453" x2="130" y2="432" stroke="#4a6274" stroke-width="1" marker-end="url(#arrowSlate)" stroke-dasharray="3 2"/>
+
+  <!-- MCP Server → PostgreSQL -->
+  <line x1="644" y1="208" x2="706" y2="208" stroke="#7a8e98" stroke-width="1.5" marker-end="url(#arrowMuted)"/>
+  <line x1="644" y1="278" x2="706" y2="278" stroke="#7a8e98" stroke-width="1.5" marker-end="url(#arrowMuted)"/>
+  <text x="675" y="201" text-anchor="middle" font-size="7.5" fill="#7a8e98" font-weight="600">SQL</text>
+
+  <!-- ═══════════ BOTTOM: Auto-unblock flow ═══════════ -->
+
+  <rect x="30" y="533" width="890" height="72" rx="8" fill="white" stroke="#6882a6" stroke-width="1.2" filter="url(#shadow)"/>
+  <text x="475" y="554" text-anchor="middle" font-size="11" font-weight="700" fill="#2e4050">Auto-Unblock Flow — Zero Slack Messages Needed</text>
+
+  <!-- Flow: varied colors per step -->
+  <rect x="50" y="565" width="150" height="26" rx="4" fill="#eef2f8" stroke="#6882a6" stroke-width="0.8"/>
+  <text x="125" y="582" text-anchor="middle" font-size="8.5" font-weight="600" fill="#344a66">Agent A: complete_claim</text>
+
+  <line x1="204" y1="578" x2="228" y2="578" stroke="#7a8e98" stroke-width="1.5" marker-end="url(#arrowMuted)"/>
+
+  <rect x="232" y="565" width="130" height="26" rx="4" fill="#f2eef6" stroke="#8a72aa" stroke-width="0.8"/>
+  <text x="297" y="582" text-anchor="middle" font-size="8.5" font-weight="600" fill="#503a6e">Signal: completion</text>
+
+  <line x1="366" y1="578" x2="390" y2="578" stroke="#7a8e98" stroke-width="1.5" marker-end="url(#arrowMuted)"/>
+
+  <rect x="394" y="565" width="150" height="26" rx="4" fill="#f0f6f2" stroke="#5a9a72" stroke-width="0.8"/>
+  <text x="469" y="582" text-anchor="middle" font-size="8.5" font-weight="600" fill="#2a5a3a">Deps met → status: open</text>
+
+  <line x1="548" y1="578" x2="572" y2="578" stroke="#7a8e98" stroke-width="1.5" marker-end="url(#arrowMuted)"/>
+
+  <rect x="576" y="565" width="146" height="26" rx="4" fill="#fef8ee" stroke="#c9a04a" stroke-width="0.8"/>
+  <text x="649" y="582" text-anchor="middle" font-size="8.5" font-weight="600" fill="#7a5c1a">Intent visible to team</text>
+
+  <line x1="726" y1="578" x2="750" y2="578" stroke="#7a8e98" stroke-width="1.5" marker-end="url(#arrowMuted)"/>
+
+  <rect x="754" y="565" width="148" height="26" rx="4" fill="#eef2f8" stroke="#6882a6" stroke-width="0.8"/>
+  <text x="828" y="582" text-anchor="middle" font-size="8.5" font-weight="600" fill="#344a66">Agent B: claim_work</text>
+</svg>

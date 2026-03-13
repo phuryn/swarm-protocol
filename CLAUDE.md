@@ -6,13 +6,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Swarm Protocol is a headless MCP server for AI agent team coordination. It solves state synchronization when multiple people work through AI agents (Claude Code, etc.) on the same codebase simultaneously — preventing file conflicts, tracking work in flight, and managing task dependencies.
 
-**Status:** Alpha — all 19 MCP tools implemented, integration tests written. See SPEC.md for the full design.
+**Status:** Alpha — all 19 MCP tools implemented, integration tests written. See docs/SPEC.md for the full design.
 
 ## Philosophy & Positioning
 
 This is a **coordination protocol, not a project management tool**. The origin insight: "Jira was built for humans clicking buttons. This is coordination infrastructure for agent-first teams." The problem isn't Kanban or sprints — it's state synchronization when agents are the primary interface.
 
-**Key differentiator:** Every existing tool (Claude Code Agent Teams, CCPM, tick-md, Agent-MCP, 1Code, etc.) solves single-developer multi-agent coordination. Swarm Protocol solves multi-human multi-agent coordination across teams. See LANDSCAPE.md for the full competitive analysis.
+**Key differentiator:** Every existing tool (Claude Code Agent Teams, CCPM, tick-md, Agent-MCP, 1Code, etc.) solves single-developer multi-agent coordination. Swarm Protocol solves multi-human multi-agent coordination across teams. See docs/LANDSCAPE.md for the full competitive analysis.
 
 When making implementation decisions:
 - **Protocol over product.** Keep it minimal and composable. Resist feature creep toward traditional PM concepts (sprints, boards, velocity, story points).

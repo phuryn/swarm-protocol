@@ -25,7 +25,7 @@ npm test
 
 1. Fork the repo and create a branch from `main`
 2. Make your changes
-3. Add or update tests — we use integration tests against real PostgreSQL (see [TESTING.md](TESTING.md))
+3. Add or update tests — we use integration tests against real PostgreSQL (see [TESTING.md](docs/TESTING.md))
 4. Run `npm test` and make sure all 67+ tests pass
 5. Open a PR with a clear description of what and why
 
@@ -68,7 +68,7 @@ Open an issue with:
 
 ## Design Philosophy
 
-Before proposing large changes, read [SPEC.md](SPEC.md) and the Philosophy section in [CLAUDE.md](CLAUDE.md). The key principles:
+Before proposing large changes, read [SPEC.md](docs/SPEC.md) and the Philosophy section in [CLAUDE.md](CLAUDE.md). The key principles:
 
 - **Protocol over product** — resist feature creep toward traditional PM tools
 - **MCP-native** — the interface is MCP tools, not REST or UI
