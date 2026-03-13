@@ -1,0 +1,37 @@
+{
+  "name": "agentsync",
+  "version": "0.1.0",
+  "description": "MCP server for AI agent team coordination. No UI. No sprints. Just state sync.",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "agentsync": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc && cp src/db/schema.sql dist/db/schema.sql",
+    "start": "node dist/index.js",
+    "dev": "tsc --watch",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": [
+    "mcp",
+    "agent-coordination",
+    "claude-code",
+    "team-sync",
+    "ai-agents"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.8.0",
+    "pg": "^8.13.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/pg": "^8.11.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}
