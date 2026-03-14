@@ -56,9 +56,11 @@ Teams of 2+ developers where AI agents (Claude Code, etc.) are the primary devel
 
 ## The Problem
 
-Every existing tool in this space solves **single-player** multi-agent coordination: one developer dispatching 3-5 agents. Useful, but insufficient.
+Every existing tool solves: **"I'm one developer running 3-5 agents in parallel, how do I prevent them from colliding?"**
 
-Nobody is solving **multiplayer**: multiple humans, each working through agents, across teams. That's not a project management problem — it's a state synchronization problem.
+Nobody is solving: **"We're a team of 8 humans, each working through agents, across the same codebase. How do we know what's in flight, avoid stepping on each other, and automatically hand off unblocked work?"**
+
+That's single-player vs. multiplayer. Different product category. And it's not a project management problem — it's a state synchronization problem.
 
 What happens without coordination:
 - Two agents edit the same files → ugly merge conflicts
