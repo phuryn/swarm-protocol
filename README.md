@@ -6,8 +6,6 @@
 
 **Coordination protocol for agent-first teams. No UI. No sprints. No Jira. Just state sync.**
 
-![Swarm Protocol](docs/welcome.png)
-
 **Status: Alpha — building in public. [19 MCP tools](#all-19-tools) implemented, integration tests passing.**
 
 ## The Coordination Loop
@@ -74,10 +72,10 @@ See [LANDSCAPE.md](docs/LANDSCAPE.md) for the full competitive breakdown.
 
 | Primitive | What It Does |
 |-----------|-------------|
-| **Intent** | A unit of desired outcome — not a ticket. Lifecycle: `draft → open → claimed → done`. Has constraints, acceptance criteria, and dependency chains. |
-| **Claim** | "I'm working on this." Tracks which files are being touched. Includes heartbeat — claims with no heartbeat for 30 min get flagged as stale. |
-| **Signal** | Event notification: completion, blocked, conflict, info. When a completion signal fires, dependent intents auto-unblock. |
-| **Context Package** | Everything an agent needs to start work — intent, dependencies, active claims on overlapping files, recent signals, team conventions — assembled in one call via `get_context`. Solves the state handoff problem: when Agent A completes work, the structured output travels with the task so Agent B gets a stable input contract, not just "the file changed." Sequential dependency chains require this — Agent B's correctness depends on Agent A's output schema being stable across runs. |
+| 🎯 **Intent** | A unit of desired outcome — not a ticket. Lifecycle: `draft → open → claimed → done`. Has constraints, acceptance criteria, and dependency chains. |
+| 🔒 **Claim** | "I'm working on this." Tracks which files are being touched. Heartbeat every 10-15 min — stale claims get flagged. |
+| ⚡ **Signal** | Event notification: completion, blocked, conflict. When a completion signal fires, dependent intents auto-unblock. |
+| 📦 **Context Package** | Everything an agent needs to start work — assembled in one call via `get_context`. Solves state handoff: structured output travels with the task so Agent B gets a stable input contract, not just "the file changed." |
 
 ## Architecture
 
