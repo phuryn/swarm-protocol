@@ -3,6 +3,7 @@ import type {
   Team, Intent, IntentWithRelations, Claim, Signal,
   ConflictWarning, ContextPackage, TeamStatus, Overview,
   IntentStatus, IntentPriority, SignalType,
+  BoardIntent, BoardView,
 } from '../types.js';
 
 // ─── Teams ──────────────────────────────────────────────
@@ -701,5 +702,79 @@ export async function getOverview(): Promise<Overview> {
     stale_claims: staleRes.rows,
     recently_completed: completedRes.rows,
     blocked_intents: blockedRes.rows,
+  };
+}
+
+// ─── Board View ──────────────────────────────────────────
+
+export async function getBoard(teamId?: string): Promise<BoardView> {
+  // Main query: all non-draft intents LEFT JOIN active claims
+  const teamFilter = teamId ? `AND i.team_id = $1` : '';
+  const params: unknown[] = teamId ? [teamId] : [];
+
+  const intentsRes = await query<{
+    id: string;
+    title: string;
+    priority: IntentPriority;
+    team_id: string | null;
+    status: IntentStatus;
+    claimed_by: string | null;
+    claim_id: string | null;
+  }>(
+    `SELECT i.id, i.title, i.priority, i.team_id, i.status,
+            c.claimed_by, c.id as claim_id
+     FROM intents i
+     LEFT JOIN claims c ON c.intent_id = i.id AND c.status = 'active'
+     WHERE i.status != 'draft' ${teamFilter}
+     ORDER BY i.priority, i.created_at DESC`,
+    params
+  );
+
+  // Secondary query: blocked dependencies (intent_id -> depends_on where dep is not done)
+  const blockedDepsRes = await query<{ intent_id: string; depends_on: string }>(
+    `SELECT d.intent_id, d.depends_on
+     FROM intent_dependencies d
+     JOIN intents dep ON dep.id = d.depends_on
+     JOIN intents i ON i.id = d.intent_id
+     WHERE dep.status != 'done'
+     AND i.status = 'blocked'`
+  );
+
+  // Build blocked_by lookup: intent_id -> [dependency IDs]
+  const blockedByMap = new Map<string, string[]>();
+  for (const row of blockedDepsRes.rows) {
+    const existing = blockedByMap.get(row.intent_id) ?? [];
+    existing.push(row.depends_on);
+    blockedByMap.set(row.intent_id, existing);
+  }
+
+  // Group into columns
+  const columns: Record<string, BoardIntent[]> = {
+    open: [], claimed: [], blocked: [], done: [], cancelled: [],
+  };
+  for (const row of intentsRes.rows) {
+    const card: BoardIntent = {
+      id: row.id,
+      title: row.title,
+      priority: row.priority,
+      team_id: row.team_id,
+      claimed_by: row.claimed_by ?? null,
+      claim_id: row.claim_id ?? null,
+      blocked_by: blockedByMap.get(row.id) ?? [],
+    };
+    if (columns[row.status]) {
+      columns[row.status].push(card);
+    }
+  }
+
+  // Build summary counts
+  const summary: Record<string, number> = {};
+  for (const [status, cards] of Object.entries(columns)) {
+    summary[status] = cards.length;
+  }
+
+  return {
+    columns: columns as BoardView['columns'],
+    summary: summary as BoardView['summary'],
   };
 }
