@@ -12,11 +12,15 @@ This is single-player multiplayer vs. true multiplayer. Different product catego
 
 ## Existing Tools (All Single-Developer Focus)
 
-### 1. Claude Code Agent Teams (Anthropic, experimental)
-- One lead agent coordinates teammates within a single session
-- Shared task list, file locking, inter-agent messaging
+### 1. Claude Code Agent Teams (Anthropic, shipped with Opus 4.6)
+- Officially launched as experimental feature — enable with `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`
+- One lead agent coordinates teammates, each in independent context windows
+- Shared task list, inter-agent messaging, peer-to-peer communication between teammates
+- Teammates work independently — not subagents reporting back to a parent
 - Intra-session only — not cross-team, not cross-human
-- Still experimental, known limitations around session resumption
+- Known limitations: no session resumption, no nested teams, no cross-session state
+- Uses significantly more tokens than single sessions (~3-4x for a 3-teammate team)
+- Best for: research/review, new modules, debugging with competing hypotheses, cross-layer coordination
 - https://code.claude.com/docs/en/agent-teams
 
 ### 2. Claude Code Tasks (Anthropic, native)
@@ -26,14 +30,34 @@ This is single-player multiplayer vs. true multiplayer. Different product catego
 - Dependencies and blockers supported
 - https://venturebeat.com/orchestration/claude-codes-tasks-update-lets-agents-work-longer-and-coordinate-across
 
-### 3. CCPM — Claude Code Project Manager (automazeio)
+### 3. Claude Code Review (Anthropic, March 2026)
+- Multi-agent PR review — dispatches parallel agents examining code from different perspectives
+- Verification agent aggregates findings, removes duplicates, ranks by severity
+- Agents don't approve PRs — they post flagged issues as inline comments
+- Configurable via REVIEW.md (what to prioritize/deprioritize) and CLAUDE.md (codebase context)
+- 54% of PRs receive substantive comments (up from 16% with older approaches per Anthropic)
+- Scoped to single PR — not cross-session, not cross-team coordination
+- Team and Enterprise plans only, ~$15-25 per review, ~20 min completion time
+- https://www.anthropic.com/research/claude-code-review
+
+### 4. VS Code Multi-Agent Development (Microsoft, Feb 2026)
+- VS Code 1.109 positioned itself as "the home for multi-agent development"
+- Run Claude, Codex, and Copilot agents side by side — local, background, or cloud
+- Parallel subagents with visibility into what each is doing
+- Agent Sessions view: single place to manage all running agents
+- Agent Skills (Anthropic's open standard) generally available in VS Code extensions
+- Custom agents with specialized tools, instructions, and model selection per agent
+- Still single-developer scope — multiple agents for one person, not team coordination
+- https://code.visualstudio.com/blogs/2026/02/05/multi-agent-development
+
+### 5. CCPM — Claude Code Project Manager (automazeio)
 - GitHub Issues as database, git worktrees for parallel execution
 - PRD → Epic → Task → Issue → Code → Commit pipeline
 - Closer to our idea but assumes single developer dispatching agents
 - No cross-team coordination or conflict detection
 - https://github.com/automazeio/ccpm
 
-### 4. tick-md (Purple Horizons)
+### 6. tick-md (Purple Horizons)
 - Markdown file as database, git-backed, MCP server included
 - 7 GitHub stars — tiny traction
 - File locking, dependency tracking, real-time monitoring
@@ -42,13 +66,13 @@ This is single-player multiplayer vs. true multiplayer. Different product catego
 - https://www.tick.md/
 - https://github.com/Purple-Horizons (org page)
 
-### 5. Agent-MCP (rinadelph)
+### 7. Agent-MCP (rinadelph)
 - Shared memory graph ("Obsidian for AI agents"), file locking, task management
 - Real-time dashboard visualization
 - Single-repo, single-developer scope
 - https://github.com/rinadelph/Agent-MCP
 
-### 6. 1Code (21st.dev, YC W26)
+### 8. 1Code (21st.dev, YC W26)
 - GUI wrapper for Claude Code / OpenAI Codex
 - Cloud-based background execution, kanban board
 - Git worktree isolation per agent
@@ -56,19 +80,19 @@ This is single-player multiplayer vs. true multiplayer. Different product catego
 - Orchestration client, not a coordination protocol
 - https://dev.to/_46ea277e677b888e0cd13/1code-managing-multiple-ai-coding-agents-without-terminal-hell-14o4
 
-### 7. multi-agent-coordination-mcp (AndrewDavidRivers)
+### 9. multi-agent-coordination-mcp (AndrewDavidRivers)
 - MCP server for Cursor IDE specifically
 - File locking, dependency management, Projects → Tasks → Todo Items
 - Single-developer scope
 - https://github.com/AndrewDavidRivers/multi-agent-coordination-mcp
 
-### 8. GitButler
+### 10. GitButler
 - Auto-sorts parallel Claude Code sessions into separate git branches via hooks
 - Each session gets its own branch automatically
 - Smart but solves git conflict isolation, not team coordination
 - https://blog.gitbutler.com/parallel-claude-code
 
-### 9. multi-agent-coordination-framework (timothyjrainwater-lab)
+### 11. multi-agent-coordination-framework (timothyjrainwater-lab)
 - Methodology/protocol repo, not a tool
 - Built by a non-technical operator coordinating Claude + GPT agents
 - Handoff checklists, consistency gates, structured memo formats
@@ -76,13 +100,27 @@ This is single-player multiplayer vs. true multiplayer. Different product catego
 - Proves the pain is real but solution is manual protocols
 - https://github.com/timothyjrainwater-lab/multi-agent-coordination-framework
 
-### 10. Beads Village (MCP-based)
+### 12. Beads Village (MCP-based)
 - MCP server with task queues, file locking, and built-in messaging between agents
 - Standard workflow: initialize → claim tasks → lock files → work → complete
 - Runs entirely locally, data stored in Git repo
 - Cross-platform: supports Claude Desktop, Cursor, VS Code
 - Still single-developer scope — no cross-human coordination
 - https://mcp.aibase.com/server/1586804682578469105
+
+---
+
+## Research Papers
+
+### AgentConductor (Chinese labs, Feb 2026)
+- Dynamic topology evolution for multi-agent code generation
+- LLM-based orchestrator infers agent roles and task difficulty, constructs task-adapted DAG topology
+- Easy tasks get small, cheap teams. Hard tasks get large, highly connected teams.
+- Manager rewrites the team workflow on failure based on error feedback
+- 68% token cost reduction vs. fixed topologies, 14.6% accuracy improvement on competition-level code
+- Validates our core thesis: static agent pipelines waste compute on simple tasks and fail on complex ones
+- Still single-problem scope — solves intra-session topology, not cross-session coordination
+- Paper: https://arxiv.org/abs/2602.17100
 
 ---
 
@@ -137,11 +175,14 @@ This is single-player multiplayer vs. true multiplayer. Different product catego
 | Team support | None | Multi-team with conventions |
 | State sharing | Env vars, shared files | PostgreSQL, real-time via MCP |
 | Draft workflow | No | Draft → publish → claim |
+| State handoff | Implicit (file system changes) | Explicit (Context Package with structured output + dependency schema) |
 
 ## Key Positioning
 
 - Not "Jira but with AI" — that's what Atlassian is doing and they'll always do it better
 - Not "one dev managing agent fleet" — that's what 1Code, CCPM, tick-md do
+- Not "smarter agents in one session" — that's what Agent Teams, Code Review, VS Code multi-agent, and AgentConductor do
 - **"Coordination infrastructure for agent-first teams"** — a new category
 - The market for this is tiny today and enormous in 12-18 months
+- March 2026 signal: Anthropic shipped Agent Teams AND Code Review. Microsoft shipped multi-agent VS Code. AgentConductor paper dropped. All single-player. The multiplayer gap is widening, not closing.
 - First mover who names the category owns the narrative

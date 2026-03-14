@@ -1,7 +1,6 @@
 # 🐝 Swarm Protocol
 
 [![Tests](https://github.com/phuryn/swarm-protocol/actions/workflows/test.yml/badge.svg)](https://github.com/phuryn/swarm-protocol/actions/workflows/test.yml)
-![GitHub stars](https://img.shields.io/github/stars/phuryn/swarm-protocol?style=flat-square&color=0d9488)
 [![License: MIT](https://img.shields.io/badge/License-MIT-0d9488?style=flat-square)](https://github.com/phuryn/swarm-protocol/blob/main/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-0d9488?style=flat-square)](https://github.com/phuryn/swarm-protocol/blob/main/CONTRIBUTING.md)
 
@@ -36,6 +35,21 @@ This is a **coordination protocol, not a project management tool.** Jira was bui
 
 The CLAUDE.md integration pattern is as important as the server itself. Agents coordinate automatically without humans configuring anything.
 
+## How This Relates to Agent Teams, Code Review, and Other Multi-Agent Tools
+
+These tools are complementary, not competing. They operate at different layers:
+
+- **Claude Code Agent Teams** coordinates agents within a single session — one lead, parallel teammates, shared task list. Intra-session.
+- **Claude Code Review** dispatches parallel review agents against a single PR. Intra-PR.
+- **VS Code multi-agent** runs Claude, Codex, and Copilot agents side by side for one developer. Intra-machine.
+- **AgentConductor** dynamically adjusts agent communication graphs per coding problem. Intra-problem.
+
+**Swarm Protocol** coordinates across sessions — multiple humans, each running their own agents, on a shared codebase. Inter-session, inter-human.
+
+An agent uses Agent Teams internally for its own subtask parallelism. It uses Swarm Protocol's MCP tools to know which work to pick up, which files to avoid, and what context the previous agent left behind.
+
+The single-player problem is getting solved. The multiplayer problem hasn't started.
+
 ## Who Is This For
 
 Teams of 2+ developers where AI agents (Claude Code, etc.) are the primary development interface. If your workflow is "open terminal → tell Claude Code what to build → review the PR" and teammates are doing the same thing at the same time — this is the missing layer.
@@ -63,7 +77,7 @@ See [LANDSCAPE.md](docs/LANDSCAPE.md) for the full competitive breakdown.
 | **Intent** | A unit of desired outcome — not a ticket. Lifecycle: `draft → open → claimed → done`. Has constraints, acceptance criteria, and dependency chains. |
 | **Claim** | "I'm working on this." Tracks which files are being touched. Includes heartbeat — claims with no heartbeat for 30 min get flagged as stale. |
 | **Signal** | Event notification: completion, blocked, conflict, info. When a completion signal fires, dependent intents auto-unblock. |
-| **Context Package** | Everything an agent needs to start work — intent, dependencies, active claims on overlapping files, recent signals, team conventions — assembled in one call via `get_context`. |
+| **Context Package** | Everything an agent needs to start work — intent, dependencies, active claims on overlapping files, recent signals, team conventions — assembled in one call via `get_context`. Solves the state handoff problem: when Agent A completes work, the structured output travels with the task so Agent B gets a stable input contract, not just "the file changed." Sequential dependency chains require this — Agent B's correctness depends on Agent A's output schema being stable across runs. |
 
 ## Architecture
 
