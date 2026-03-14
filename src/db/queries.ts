@@ -257,7 +257,17 @@ export async function claimWork(params: ClaimWorkParams): Promise<{ claim: Claim
   const intentRes = await query<Intent>(`SELECT * FROM intents WHERE id = $1`, [params.intent_id]);
   const intent = intentRes.rows[0];
   if (!intent) throw new Error(`Intent ${params.intent_id} not found`);
-  if (intent.status !== 'open') throw new Error(`Intent ${params.intent_id} is not open (current: ${intent.status})`);
+  if (intent.status !== 'open') {
+    if (intent.status === 'claimed') {
+      const activeClaim = await query<Claim>(
+        `SELECT claimed_by FROM claims WHERE intent_id = $1 AND status = 'active' LIMIT 1`,
+        [params.intent_id]
+      );
+      const claimedBy = activeClaim.rows[0]?.claimed_by;
+      throw new Error(`Intent ${params.intent_id} is already claimed by ${claimedBy ?? 'unknown'}`);
+    }
+    throw new Error(`Intent ${params.intent_id} is not open (current: ${intent.status})`);
+  }
 
   // Create the claim
   const claimRes = await query<Claim>(
@@ -299,7 +309,11 @@ export async function heartbeat(claimId: string, filesTouching?: string[]): Prom
     `UPDATE claims SET ${sets.join(', ')} WHERE id = $${paramIdx} AND status = 'active' RETURNING *`,
     [...values, claimId]
   );
-  if (res.rows.length === 0) throw new Error(`Active claim ${claimId} not found`);
+  if (res.rows.length === 0) {
+    const existing = await query<Claim>(`SELECT status FROM claims WHERE id = $1`, [claimId]);
+    if (existing.rows.length === 0) throw new Error(`Claim ${claimId} not found`);
+    throw new Error(`Claim ${claimId} is not active (current: ${existing.rows[0].status})`);
+  }
   return res.rows[0];
 }
 
