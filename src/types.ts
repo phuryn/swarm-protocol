@@ -109,7 +109,9 @@ export interface BoardIntent {
   blocked_by: string[];
 }
 
+export type BoardStatus = Exclude<IntentStatus, 'draft'>;
+
 export interface BoardView {
-  columns: Partial<Record<IntentStatus, BoardIntent[]>>;
-  summary: Partial<Record<IntentStatus, number>>;
+  columns: Record<BoardStatus, BoardIntent[]>;
+  summary: Record<BoardStatus, number>;
 }

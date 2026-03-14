@@ -133,9 +133,9 @@ describe('Board View', () => {
     const board = await db.getBoard();
 
     expect(board.columns.open).toHaveLength(1);
-    expect(board.columns.open![0].title).toBe('Open task');
+    expect(board.columns.open[0].title).toBe('Open task');
     expect(board.columns.claimed).toHaveLength(1);
-    expect(board.columns.claimed![0].title).toBe('Claimed task');
+    expect(board.columns.claimed[0].title).toBe('Claimed task');
   });
 
   it('includes claimed_by and claim_id for claimed intents', async () => {
@@ -147,7 +147,7 @@ describe('Board View', () => {
 
     const board = await db.getBoard();
 
-    const claimedCard = board.columns.claimed![0];
+    const claimedCard = board.columns.claimed[0];
     expect(claimedCard.claimed_by).toBe('pawel');
     expect(claimedCard.claim_id).toBe(claim.id);
   });
@@ -171,7 +171,7 @@ describe('Board View', () => {
     const board = await db.getBoard();
 
     expect(board.columns.blocked).toHaveLength(1);
-    expect(board.columns.blocked![0].blocked_by).toContain(blocker.id);
+    expect(board.columns.blocked[0].blocked_by).toContain(blocker.id);
   });
 
   it('filters by team_id when provided', async () => {
@@ -182,7 +182,7 @@ describe('Board View', () => {
     const board = await db.getBoard('frontend');
 
     expect(board.columns.open).toHaveLength(1);
-    expect(board.columns.open![0].title).toBe('Frontend task');
+    expect(board.columns.open[0].title).toBe('Frontend task');
   });
 
   it('excludes drafts from all columns', async () => {

@@ -48,4 +48,16 @@ export function registerOverviewTools(server: McpServer): void {
       return { content: [{ type: 'text', text: JSON.stringify(overview, null, 2) }] };
     }
   );
+
+  server.tool(
+    'get_board',
+    'Get kanban board view — all intents grouped by status column with active claims and blocked dependencies. Excludes drafts.',
+    {
+      team_id: z.string().optional().describe('Filter to a single team. Omit for cross-team board.'),
+    },
+    async ({ team_id }) => {
+      const board = await db.getBoard(team_id);
+      return { content: [{ type: 'text', text: JSON.stringify(board, null, 2) }] };
+    }
+  );
 }

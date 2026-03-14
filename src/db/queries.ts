@@ -3,7 +3,7 @@ import type {
   Team, Intent, IntentWithRelations, Claim, Signal,
   ConflictWarning, ContextPackage, TeamStatus, Overview,
   IntentStatus, IntentPriority, SignalType,
-  BoardIntent, BoardView,
+  BoardIntent, BoardView, BoardStatus,
 } from '../types.js';
 
 // ─── Teams ──────────────────────────────────────────────
@@ -749,7 +749,7 @@ export async function getBoard(teamId?: string): Promise<BoardView> {
   }
 
   // Group into columns
-  const columns: Record<string, BoardIntent[]> = {
+  const columns: Record<BoardStatus, BoardIntent[]> = {
     open: [], claimed: [], blocked: [], done: [], cancelled: [],
   };
   for (const row of intentsRes.rows) {
@@ -762,19 +762,19 @@ export async function getBoard(teamId?: string): Promise<BoardView> {
       claim_id: row.claim_id ?? null,
       blocked_by: blockedByMap.get(row.id) ?? [],
     };
-    if (columns[row.status]) {
-      columns[row.status].push(card);
+    if (row.status in columns) {
+      columns[row.status as BoardStatus].push(card);
     }
   }
 
   // Build summary counts
-  const summary: Record<string, number> = {};
-  for (const [status, cards] of Object.entries(columns)) {
-    summary[status] = cards.length;
-  }
-
-  return {
-    columns: columns as BoardView['columns'],
-    summary: summary as BoardView['summary'],
+  const summary: Record<BoardStatus, number> = {
+    open: columns.open.length,
+    claimed: columns.claimed.length,
+    blocked: columns.blocked.length,
+    done: columns.done.length,
+    cancelled: columns.cancelled.length,
   };
+
+  return { columns, summary };
 }
