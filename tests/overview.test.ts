@@ -12,10 +12,6 @@ describe('Team Status & Overview', () => {
     await seedTeam();
   });
 
-  afterAll(async () => {
-    await teardownTestDb();
-  });
-
   it('returns team status with intents grouped by status', async () => {
     const intent = await seedOpenIntent({ title: 'Open task' });
     const intent2 = await seedOpenIntent({ title: 'Claimed task' });
@@ -97,5 +93,111 @@ describe('Team Status & Overview', () => {
     const overview = await db.getOverview();
     expect(overview.recently_completed).toHaveLength(1);
     expect(overview.recently_completed[0].title).toBe('Will complete');
+  });
+});
+
+describe('Board View', () => {
+  beforeAll(async () => {
+    await setupTestDb();
+  });
+
+  beforeEach(async () => {
+    await cleanTestDb();
+    await seedTeam();
+  });
+
+  afterAll(async () => {
+    await teardownTestDb();
+  });
+
+  it('returns empty columns with zero counts when no intents exist', async () => {
+    const board = await db.getBoard();
+
+    expect(board.columns.open).toEqual([]);
+    expect(board.columns.claimed).toEqual([]);
+    expect(board.columns.blocked).toEqual([]);
+    expect(board.columns.done).toEqual([]);
+    expect(board.columns.cancelled).toEqual([]);
+    expect(board.summary.open).toBe(0);
+    expect(board.summary.claimed).toBe(0);
+    expect(board.summary.blocked).toBe(0);
+    expect(board.summary.done).toBe(0);
+    expect(board.summary.cancelled).toBe(0);
+  });
+
+  it('groups intents into correct status columns', async () => {
+    const openIntent = await seedOpenIntent({ title: 'Open task' });
+    const claimedIntent = await seedOpenIntent({ title: 'Claimed task' });
+    await db.claimWork({ intent_id: claimedIntent.id as string, claimed_by: 'alice' });
+
+    const board = await db.getBoard();
+
+    expect(board.columns.open).toHaveLength(1);
+    expect(board.columns.open![0].title).toBe('Open task');
+    expect(board.columns.claimed).toHaveLength(1);
+    expect(board.columns.claimed![0].title).toBe('Claimed task');
+  });
+
+  it('includes claimed_by and claim_id for claimed intents', async () => {
+    const intent = await seedOpenIntent({ title: 'In progress' });
+    const { claim } = await db.claimWork({
+      intent_id: intent.id as string,
+      claimed_by: 'pawel',
+    });
+
+    const board = await db.getBoard();
+
+    const claimedCard = board.columns.claimed![0];
+    expect(claimedCard.claimed_by).toBe('pawel');
+    expect(claimedCard.claim_id).toBe(claim.id);
+  });
+
+  it('includes blocked_by for blocked intents', async () => {
+    const blocker = await seedOpenIntent({ title: 'Blocker' });
+
+    await testQuery(
+      `INSERT INTO intents (title, created_by, team_id, status, priority, acceptance_criteria)
+       VALUES ('Blocked task', 'alice', 'backend', 'blocked', 'medium', '["Done"]') RETURNING *`
+    );
+    const blockedRes = await testQuery(
+      `SELECT id FROM intents WHERE title = 'Blocked task'`
+    );
+    const blockedId = blockedRes.rows[0].id;
+    await testQuery(
+      'INSERT INTO intent_dependencies (intent_id, depends_on) VALUES ($1, $2)',
+      [blockedId, blocker.id]
+    );
+
+    const board = await db.getBoard();
+
+    expect(board.columns.blocked).toHaveLength(1);
+    expect(board.columns.blocked![0].blocked_by).toContain(blocker.id);
+  });
+
+  it('filters by team_id when provided', async () => {
+    await seedTeam('frontend', 'Frontend Team');
+    await seedOpenIntent({ title: 'Backend task', team_id: 'backend' });
+    await seedOpenIntent({ title: 'Frontend task', team_id: 'frontend' });
+
+    const board = await db.getBoard('frontend');
+
+    expect(board.columns.open).toHaveLength(1);
+    expect(board.columns.open![0].title).toBe('Frontend task');
+  });
+
+  it('excludes drafts from all columns', async () => {
+    await testQuery(
+      `INSERT INTO intents (title, created_by, team_id, status, priority, acceptance_criteria)
+       VALUES ('Draft task', 'alice', 'backend', 'draft', 'medium', '["Done"]')`
+    );
+    await seedOpenIntent({ title: 'Open task' });
+
+    const board = await db.getBoard();
+
+    const allCards = Object.values(board.columns).flat();
+    expect(allCards.every(c => c.title !== 'Draft task')).toBe(true);
+    expect(board.columns.open).toHaveLength(1);
+    expect(board.columns).not.toHaveProperty('draft');
+    expect(board.summary).not.toHaveProperty('draft');
   });
 });
