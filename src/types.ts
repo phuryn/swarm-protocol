@@ -98,3 +98,20 @@ export interface Overview {
   recently_completed: Intent[];
   blocked_intents: Array<Intent & { blocked_by: string[] }>;
 }
+
+export interface BoardIntent {
+  id: string;
+  title: string;
+  priority: IntentPriority;
+  team_id: string | null;
+  claimed_by: string | null;
+  claim_id: string | null;
+  blocked_by: string[];
+}
+
+export type BoardStatus = Exclude<IntentStatus, 'draft'>;
+
+export interface BoardView {
+  columns: Record<BoardStatus, BoardIntent[]>;
+  summary: Record<BoardStatus, number>;
+}
