@@ -1,4 +1,4 @@
-name: Tests
+name: CI
 
 on:
   push:
@@ -7,10 +7,26 @@ on:
     branches: [main]
 
 jobs:
-  test:
+  typecheck:
+    name: Type Check
     runs-on: ubuntu-latest
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - run: npm ci
+      - run: npx tsc --noEmit
+
+  test:
+    name: Test (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['20', '22']
 
     services:
       postgres:
@@ -32,7 +48,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
       - run: npm ci
